@@ -7,7 +7,7 @@ import java.util.*;
 import java.util.function.Predicate;
 
 /**
- * An interface representing the functionalities of a database
+ * An interface for the contract of what a base database to be able to do
  */
 @SuppressWarnings("unchecked")
 public interface Database {
@@ -24,7 +24,7 @@ public interface Database {
     void deinit() throws InitializationException;
     
     /**
-     * Adds a converter to this database. Converters are used by the database to convert from and to types recognized by the database itself
+     * Adds a converter to this database. Converters are used to convert from and to types recognized by the database itself
      * @param converter The converter to add
      * @param additionalConverters Any additional converters to add
      */
@@ -66,7 +66,13 @@ public interface Database {
      * @return A non-null list of matches. This can be emtpy
      * @param <T> The generic type
      */
-    <T> List<T> getSilent(Class<T> clazz, Predicate<T>... filters);
+    default <T> List<T> getSilent(Class<T> clazz, Predicate<T>... filters) {
+        try {
+            return get(clazz, filters);
+        } catch (Exception e) {
+            return List.of();
+        }
+    }
     
     /**
      * Saves an object to the database
@@ -79,7 +85,11 @@ public interface Database {
      * Saves an object o the database while silencing exceptions
      * @param object The object to save
      */
-    void saveSilent(Object object);
+    default void saveSilent(Object object) {
+        try {
+            save(object);
+        } catch (Exception e) {}
+    }
     
     /**
      * Saves several objects in bulk 
@@ -92,7 +102,11 @@ public interface Database {
      * Saves several objects in bulk while silencing exceptions
      * @param objects The objects to save
      */
-    void bulkSaveSilent(Collection<Object> objects);
+    default void bulkSaveSilent(Collection<Object> objects) {
+        try {
+            bulkSave(objects);
+        } catch (Exception e) {}
+    }
     
     /**
      * Deletes an object from the database
@@ -105,7 +119,11 @@ public interface Database {
      * Deletes an object from the database while silencing exceptions
      * @param object The object to delete
      */
-    void deleteSilent(Object object);
+    default void deleteSilent(Object object) {
+        try {
+            delete(object);
+        } catch (Exception e) {}
+    }
     
     /**
      * Deletes several objects in bulk from the database
@@ -118,5 +136,9 @@ public interface Database {
      * Deletes several objects in bulk from the database while silencing exceptions
      * @param objects The objects to delete
      */
-    void bulkDeleteSilent(Collection<Object> objects);
+    default void bulkDeleteSilent(Collection<Object> objects) {
+        try {
+            bulkDelete(objects);
+        } catch (Exception e) {}
+    }
 }
