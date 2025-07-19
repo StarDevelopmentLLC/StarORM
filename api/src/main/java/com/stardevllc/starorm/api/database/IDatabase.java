@@ -10,7 +10,7 @@ import java.util.function.Predicate;
  * An interface for the contract of what a base database to be able to do
  */
 @SuppressWarnings("unchecked")
-public interface Database {
+public interface IDatabase {
     /**
      * Initializes the database
      * @throws InitializationException Any checked exceptions are wrapped in this unchecked exception

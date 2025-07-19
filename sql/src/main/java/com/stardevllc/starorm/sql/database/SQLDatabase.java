@@ -1,14 +1,14 @@
 package com.stardevllc.starorm.sql.database;
 
 import com.stardevllc.converter.Converter;
-import com.stardevllc.starorm.api.database.Database;
+import com.stardevllc.starorm.api.database.IDatabase;
 import com.stardevllc.starorm.api.exception.*;
 
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Predicate;
 
-public class SQLDatabase implements Database {
+public class SQLDatabase implements IDatabase {
     @Override
     public void init() throws InitializationException {
         
